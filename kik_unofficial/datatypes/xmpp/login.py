@@ -59,7 +59,7 @@ class LoginRequest(XMPPElement):
                 '<registrations-since-install>0</registrations-since-install>'
                 '<prefix>CAN</prefix>'
                 '<android-id>{}</android-id>'
-                '<model>Samsung Galaxy S5 - 4.4.4 - API 19 - 1080x1920</model>'
+                '<model>Samsung Galaxy Note20 5G - 12.0 - API 31 - 1080x1920</model>'
                 '{}'
                 '</query>'
                 '</iq>').format(self.message_id, tag.format(self.username, password_key),
@@ -167,7 +167,10 @@ class EstablishAuthenticatedSessionRequest(XMPPElement):
 
 class ConnectionFailedResponse:
     def __init__(self, data: BeautifulSoup):
-        self.message = data.find('msg').text
+        try:
+            self.message = data.find('msg').text
+        except AttributeError:
+            print("The connection failed, but Kik did not return a reason as to why...")
 
 
 class CaptchaElement:
